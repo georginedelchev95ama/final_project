@@ -103,7 +103,7 @@ require_once __DIR__ . '/../core/header.php';
         <?php if ($currentUser && !$isOwnProfile): ?>
         <div class="profile-actions">
             <button class="btn btn-primary"
-                    onclick="window.chatOpenWith(<?php echo json_encode($profileUser['username']); ?>)">
+                    onclick="window.chatOpenWith('<?php echo esc($profileUser['username']); ?>')">
                 💬 Message
             </button>
             <a class="btn btn-secondary"
