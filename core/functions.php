@@ -171,6 +171,14 @@ function is_user_online(?string $lastSeen): bool
     return strtotime($lastSeen) > (time() - 300);
 }
 
+function online_dot(?string $lastSeen): string
+{
+    $on    = is_user_online($lastSeen);
+    $cls   = $on ? 'online-dot' : 'offline-dot';
+    $title = $on ? 'Online' : 'Offline';
+    return '<span class="' . $cls . '" title="' . $title . '"></span>';
+}
+
 function call_ml_api(string $endpoint): ?array
 {
     $mlUrl = rtrim(getenv('ML_API_URL') ?: '', '/');

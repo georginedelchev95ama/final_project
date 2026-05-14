@@ -220,6 +220,9 @@
         showThreadView(username);
     };
 
+    // Alias used by Message buttons on profile pages
+    window.chatWith = window.chatOpenWith;
+
     // ── Boot ──────────────────────────────────────────────────────
 
     startBgPoll();
