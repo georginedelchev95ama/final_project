@@ -1,8 +1,9 @@
 <?php
 require_once __DIR__ . '/../core/functions.php';
 require_login();
-$pageTitle = 'Profile';
 $user = current_user($conn);
+header('Location: ' . app_url('pages/user.php?username=' . urlencode($user['username'])));
+exit();
 
 $achievementSql = 'SELECT a.name, a.description, ua.unlocked_at
     FROM user_achievements ua
