@@ -73,7 +73,7 @@ $isOwnProfile = $currentUser && $currentUser['username'] === $profileUser['usern
 $isOnline = is_user_online($profileUser['last_seen'] ?? null);
 
 $mlRecommendation = null;
-if ($isOwnProfile && $profileUser['games_played'] >= 3) {
+if ($isOwnProfile) {
     $mlRecommendation = call_ml_api('/api/recommend/' . urlencode($profileUser['username']));
 }
 
