@@ -34,6 +34,7 @@ if ($user) {
             <a href="<?php echo esc(app_url('pages/play.php')); ?>">Play</a>
             <a href="<?php echo esc(app_url('pages/leaderboard.php')); ?>">Leaderboard</a>
             <a href="<?php echo esc(app_url('pages/achievements.php')); ?>">Achievements</a>
+            <a href="<?php echo esc(app_url('pages/help.php')); ?>">🤖 Help</a>
             <?php if ($user): ?>
                 <a href="<?php echo esc(app_url('pages/profile.php')); ?>">Profile</a>
                 <span class="nav-user">👤 <?php echo esc($user['username']); ?> · <?php echo esc($user['title']); ?></span>

@@ -55,5 +55,10 @@ def chatbot():
         return jsonify({'reply': reply.strip()})
     except requests.exceptions.Timeout:
         return jsonify({'error': 'The assistant took too long to respond. Try again.'}), 504
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    except requests.exceptions.HTTPError as e:
+        status = e.response.status_code if e.response is not None else 500
+        if status == 429:
+            return jsonify({'error': 'Too many requests — please wait a moment and try again.'}), 429
+        return jsonify({'error': 'Gemini API error. Please try again later.'}), 502
+    except Exception:
+        return jsonify({'error': 'Something went wrong. Please try again.'}), 500
