@@ -72,10 +72,7 @@ $currentUser = current_user($conn);
 $isOwnProfile = $currentUser && $currentUser['username'] === $profileUser['username'];
 $isOnline = is_user_online($profileUser['last_seen'] ?? null);
 
-$mlRecommendation = null;
-if ($isOwnProfile) {
-    $mlRecommendation = call_ml_api('/api/recommend/' . urlencode($profileUser['username']));
-}
+$mlRecommendation = call_ml_api('/api/recommend/' . urlencode($profileUser['username']));
 
 $pageTitle = $profileUser['username'] . ' — Profile';
 require_once __DIR__ . '/../core/header.php';
@@ -139,14 +136,26 @@ require_once __DIR__ . '/../core/header.php';
             <input type="text" id="compare-search" class="form-control" placeholder="Search username…" autocomplete="off" />
             <div id="compare-suggestions" class="compare-suggestions" style="display:none"></div>
         </div>
-        <?php if ($mlRecommendation): ?>
+        <?php if ($mlRecommendation && empty($mlRecommendation['error'])): ?>
         <div class="ml-tip" style="margin-top:20px">
-            <span class="eyebrow">AI Tip</span>
-            <p><?php echo esc($mlRecommendation['reason'] ?? ''); ?></p>
-            <?php if (!empty($mlRecommendation['recommended_level'])): ?>
-            <a class="btn btn-secondary" href="<?php echo esc(app_url('pages/practice.php')); ?>">
-                Practice Level <?php echo (int) $mlRecommendation['recommended_level']; ?> →
-            </a>
+            <span class="eyebrow">AI Insight</span>
+            <?php if ($isOwnProfile): ?>
+                <p><?php echo esc($mlRecommendation['reason'] ?? ''); ?></p>
+                <?php if (!empty($mlRecommendation['recommended_level'])): ?>
+                <a class="btn btn-secondary" href="<?php echo esc(app_url('pages/practice.php?level=' . (int)$mlRecommendation['recommended_level'])); ?>">
+                    Practice Level <?php echo (int) $mlRecommendation['recommended_level']; ?> →
+                </a>
+                <?php endif; ?>
+            <?php else: ?>
+                <?php
+                    $reason = $mlRecommendation['reason'] ?? '';
+                    $reason = preg_replace('/\byou\b/i', esc($profileUser['username']), $reason);
+                    $reason = preg_replace('/\byour\b/i', 'their', $reason);
+                ?>
+                <p><?php echo $reason; ?></p>
+                <?php if (!empty($mlRecommendation['recommended_level'])): ?>
+                <p class="muted" style="font-size:.85rem">Recommended focus: Level <?php echo (int) $mlRecommendation['recommended_level']; ?></p>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
         <?php endif; ?>
