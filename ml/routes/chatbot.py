@@ -47,18 +47,23 @@ def chatbot():
         f'models/gemini-2.0-flash:generateContent?key={api_key}'
     )
 
-    try:
-        resp = requests.post(url, json=payload, timeout=15)
-        resp.raise_for_status()
-        result = resp.json()
-        reply = result['candidates'][0]['content']['parts'][0]['text']
-        return jsonify({'reply': reply.strip()})
-    except requests.exceptions.Timeout:
-        return jsonify({'error': 'The assistant took too long to respond. Try again.'}), 504
-    except requests.exceptions.HTTPError as e:
-        status = e.response.status_code if e.response is not None else 500
-        if status == 429:
-            return jsonify({'error': 'Too many requests — please wait a moment and try again.'}), 429
-        return jsonify({'error': 'Gemini API error. Please try again later.'}), 502
-    except Exception:
-        return jsonify({'error': 'Something went wrong. Please try again.'}), 500
+    import time
+    for attempt in range(2):
+        try:
+            resp = requests.post(url, json=payload, timeout=15)
+            if resp.status_code == 429 and attempt == 0:
+                time.sleep(5)
+                continue
+            resp.raise_for_status()
+            result = resp.json()
+            reply = result['candidates'][0]['content']['parts'][0]['text']
+            return jsonify({'reply': reply.strip()})
+        except requests.exceptions.Timeout:
+            return jsonify({'error': 'The assistant took too long to respond. Try again.'}), 504
+        except requests.exceptions.HTTPError as e:
+            status = e.response.status_code if e.response is not None else 500
+            if status == 429:
+                return jsonify({'error': 'Too many requests — please wait a moment and try again.'}), 429
+            return jsonify({'error': 'Gemini API error. Please try again later.'}), 502
+        except Exception:
+            return jsonify({'error': 'Something went wrong. Please try again.'}), 500
