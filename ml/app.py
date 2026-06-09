@@ -95,21 +95,25 @@ def recommend(username):
             hardest_lvl, lowest_prob = min(predictions, key=lambda x: x[1])
             confidence = 'high' if len(df) >= 20 else 'medium'
 
+            pct = round(lowest_prob * 100, 1)
+            pct_str = f'less than 1' if pct < 1 else str(pct).rstrip('0').rstrip('.')
             return jsonify({
                 'recommended_level': int(hardest_lvl),
                 'reason': (
                     f'Our model predicts you win Level {hardest_lvl} only '
-                    f'{round(lowest_prob * 100)}% of the time — practice it.'
+                    f'{pct_str}% of the time — practice it.'
                 ),
                 'confidence': confidence,
             })
 
         worst = qualified.sort_values('win_rate').iloc[0]
+        pct = round(worst['win_rate'] * 100, 1)
+        pct_str = f'less than 1' if pct < 1 else str(pct).rstrip('0').rstrip('.')
         return jsonify({
             'recommended_level': int(worst['level_id']),
             'reason': (
                 f'You win Level {int(worst["level_id"])} only '
-                f'{round(worst["win_rate"] * 100)}% of the time — keep practising.'
+                f'{pct_str}% of the time — keep practising.'
             ),
             'confidence': 'medium',
         })
