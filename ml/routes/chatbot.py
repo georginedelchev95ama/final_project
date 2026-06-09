@@ -62,8 +62,9 @@ def chatbot():
             return jsonify({'error': 'The assistant took too long to respond. Try again.'}), 504
         except requests.exceptions.HTTPError as e:
             status = e.response.status_code if e.response is not None else 500
+            body = e.response.text if e.response is not None else ''
             if status == 429:
-                return jsonify({'error': 'Too many requests — please wait a moment and try again.'}), 429
-            return jsonify({'error': 'Gemini API error. Please try again later.'}), 502
-        except Exception:
-            return jsonify({'error': 'Something went wrong. Please try again.'}), 500
+                return jsonify({'error': 'Too many requests — please wait a moment and try again.', 'detail': body}), 429
+            return jsonify({'error': 'Gemini API error. Please try again later.', 'status': status, 'detail': body}), 502
+        except Exception as e:
+            return jsonify({'error': 'Something went wrong. Please try again.', 'detail': str(e)}), 500
