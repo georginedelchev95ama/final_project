@@ -445,7 +445,18 @@
 .ai-widget .chat-panel {
     position: fixed;
     bottom: 90px;
+    right: 24px;
+    transition: right .25s ease;
+}
+
+.ai-widget .chat-panel.shift-left {
     right: 380px;
+}
+
+.chat-widget .chat-panel {
+    position: fixed;
+    bottom: 90px;
+    right: 24px;
 }
 
 .ai-toggle-btn {

@@ -64,14 +64,39 @@
         const msgs    = document.getElementById('ai-messages');
         const history = [];
 
+        function isChatPanelOpen() {
+            const chatPanel = document.getElementById('chat-panel');
+            return chatPanel && chatPanel.style.display !== 'none';
+        }
+
+        function updateAiPanelPosition() {
+            if (isChatPanelOpen()) {
+                panel.classList.add('shift-left');
+            } else {
+                panel.classList.remove('shift-left');
+            }
+        }
+
         toggle.addEventListener('click', function () {
-            panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
-            if (panel.style.display === 'flex') input.focus();
+            const isOpen = panel.style.display !== 'none';
+            panel.style.display = isOpen ? 'none' : 'flex';
+            if (!isOpen) {
+                updateAiPanelPosition();
+                input.focus();
+            }
         });
 
         close.addEventListener('click', function () {
             panel.style.display = 'none';
         });
+
+        // Watch for messages panel open/close to reposition AI panel
+        const chatToggle = document.getElementById('chat-toggle');
+        if (chatToggle) {
+            chatToggle.addEventListener('click', function () {
+                setTimeout(updateAiPanelPosition, 50);
+            });
+        }
 
         function addMsg(text, type) {
             const div = document.createElement('div');
