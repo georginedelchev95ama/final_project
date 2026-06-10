@@ -19,4 +19,15 @@ if (!$conn) {
 }
 
 mysqli_set_charset($conn, 'utf8mb4');
+mysqli_options($conn, MYSQLI_OPT_CONNECT_TIMEOUT, 10);
+
+// Reconnect if the connection dropped (common on Clever Cloud free tier)
+if (!mysqli_ping($conn)) {
+    mysqli_close($conn);
+    $conn = mysqli_connect($host, $username, $password, $dbname, $port);
+    if (!$conn) {
+        die("Database reconnection failed: " . mysqli_connect_error());
+    }
+    mysqli_set_charset($conn, 'utf8mb4');
+}
 ?>
