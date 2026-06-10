@@ -154,43 +154,11 @@ canvas.caught {
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
 
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-}
-
-.metric span {
-    display: block;
-    color: #00ffff;
-    margin-bottom: 6px;
-    font-size: 0.9rem;
-}
-
-.metric strong {
-    font-size: 1.3rem;
-    color: #ff1493;
-    text-shadow: 0 0 10px rgba(255, 20, 147, 0.8);
-}
-
-.achievement-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-}
-
-.achievement-item.unlocked {
-    background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 255, 0.15));
-    border: 2px solid rgba(0, 255, 0, 0.6);
-    box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
-    animation: glow 2s ease-in-out infinite;
-}
-
 .achievement-item.locked {
     opacity: 0.5;
     filter: grayscale(0.5);
 }
 
 .achievement-item.unlocked:hover {
-    transform: scale(1.08) rotate(2deg);
+    transform: scale(1.02);
 }

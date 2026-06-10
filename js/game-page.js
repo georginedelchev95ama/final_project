@@ -188,7 +188,6 @@ async function handleWin() {
             );
         }
     } catch (error) {
-        console.error('Could not save win result:', error);
         controller.showMessage('Level completed, but score could not be saved.', 'error');
     } finally {
         state.transitioning = false;
@@ -237,7 +236,6 @@ async function handleLose() {
 
         controller.showMessage('You were caught. Press Start Run to retry this level.', 'error');
     } catch (error) {
-        console.error('Could not save lose result:', error);
         controller.showMessage('You were caught, but score could not be saved.', 'error');
     } finally {
         state.transitioning = false;
@@ -253,7 +251,6 @@ function bindControls() {
                 await startChallenge();
             }
         } catch (error) {
-            console.error(error);
             controller.showMessage(error.message || 'Could not start game.', 'error');
         }
     });
@@ -309,6 +306,5 @@ controller.gameLoop(
 
     bindControls();
 })().catch((error) => {
-    console.error(error);
     controller.showMessage('Could not initialise the game page.', 'error');
 });

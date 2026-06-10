@@ -474,37 +474,3 @@
     font-style: italic;
 }
 
-/* Buttons (reusable) */
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: .9rem;
-    cursor: pointer;
-    text-decoration: none;
-    border: 2px solid transparent;
-    transition: all .25s;
-}
-
-.btn-primary {
-    background: rgba(255, 20, 147, 0.3);
-    border-color: rgba(255, 20, 147, 0.6);
-    color: #fff;
-}
-
-.btn-primary:hover {
-    background: rgba(255, 20, 147, 0.55);
-    box-shadow: 0 0 16px rgba(255,20,147,.5);
-}
-
-.btn-secondary {
-    background: rgba(0, 255, 255, 0.1);
-    border-color: rgba(0, 255, 255, 0.4);
-    color: #00ffff;
-}
-
-.btn-secondary:hover {
-    background: rgba(0, 255, 255, 0.22);
-    box-shadow: 0 0 16px rgba(0,255,255,.4);
-}
